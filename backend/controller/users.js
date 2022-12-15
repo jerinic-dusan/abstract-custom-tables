@@ -25,7 +25,7 @@ exports.login = async function (req, res) {
             return res.status(200).json(response);
         }
         const response = utils.mapResponse("Invalid credentials");
-        res.status(400).json(response);
+        res.status(403).json(response);
     } catch (error) {
         const response = utils.mapResponse("Invalid credentials");
         return res.status(401).json(response);

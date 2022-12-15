@@ -1,0 +1,100 @@
+<div class="container">
+  <div class="filter-container">
+    <mat-form-field *ngIf="filterConfiguration" [appearance]="filterConfiguration.filterAppearance" class="filter">
+      <mat-label>{{filterConfiguration.filterLabel}}</mat-label>
+      <input matInput [placeholder]="filterConfiguration.filterPlaceholder" autofocus>
+    </mat-form-field>
+  </div>
+  <div class="custom-table-max-height">
+    <table mat-table matSort
+           [dataSource]="dataSource"
+           [multiTemplateDataRows]="detailsConfiguration !== undefined"
+           [style]="styleConfiguration.styles"
+           class="mat-elevation-z8 mt-0 table">
+      <ng-container matColumnDef="{{column}}" *ngFor="let column of dataSourceColumns; let index = index">
+        <!-- Header cells -->
+        <ng-container *ngIf="sortConfiguration; else notSortable">
+          <th mat-header-cell
+              *matHeaderCellDef
+              [class.header-end]="getCellAlignment(column) === 'end'"
+              [class.header-start]="getCellAlignment(column) === 'normal'"
+              mat-sort-header="{{getSortHeader(column)}}"
+              [arrowPosition]="sortConfiguration.arrowPosition"
+              class="header-cell align-middle">
+            {{ column }}
+          </th>
+        </ng-container>
+        <ng-template #notSortable>
+          <th mat-header-cell
+              *matHeaderCellDef="let element"
+              class="header-cell align-middle">
+            {{ column }}
+          </th>
+        </ng-template>
+        <!-- Data cells -->
+        <td mat-cell
+            *matCellDef="let element"
+            class="align-middle">
+          {{ getCellFormatting(element, column) }}
+        </td>
+        <!-- Footer cells -->
+        <ng-container *ngIf="footerConfiguration">
+          <td mat-footer-cell
+              *matFooterCellDef
+              class="footer-cell align-middle">
+            {{ getFooterCellValue(column) }}
+          </td>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="detailsConfiguration">
+        <ng-container *ngIf="detailsConfiguration.customChildComponent ; else childTable">
+          <ng-container
+            [ngTemplateOutlet]="detailsConfiguration.customChildComponent"
+            [ngTemplateOutletContext]="detailsConfiguration.data"
+          ></ng-container>
+        </ng-container>
+        <ng-template #childTable>
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell class="expanded-row" *matCellDef="let element" [attr.colspan]="dataSourceColumns.length">
+              <div class="element-detail" [@detailExpand]="element === selected ? 'expanded' : 'collapsed'">
+                <ngx-custom-table
+                  [data]="detailsConfiguration.data"
+                  [styleConfiguration]="detailsConfiguration.childStyle">
+                </ngx-custom-table>
+              </div>
+            </td>
+          </ng-container>
+        </ng-template>
+      </ng-container>
+
+      <!-- Header row -->
+      <tr mat-header-row *matHeaderRowDef="dataSourceColumns; sticky: headerConfiguration ? headerConfiguration.stickyHeader : false"></tr>
+      <!-- Data row -->
+      <tr mat-row
+          *matRowDef="let element; let index = dataIndex; columns: dataSourceColumns;"
+          [class.clicked-row]="selected === element"
+          [ngClass]="{alternating: index % 2 === 0 && styleConfiguration && styleConfiguration.alternatingRowColors}"
+          (click)="elementClicked(element)"
+          class="element-row">
+      </tr>
+      <!-- Details row -->
+      <ng-container *ngIf="detailsConfiguration">
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+      </ng-container>
+      <!-- Footer row -->
+      <ng-container *ngIf="footerConfiguration">
+        <tr mat-footer-row [hidden]="!dataSource.hasData()" *matFooterRowDef="dataSourceColumns; sticky: styleConfiguration ? footerConfiguration.stickyFooter : false"></tr>
+      </ng-container>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell no-records" [attr.colspan]="dataSourceColumns.length">
+          No records found
+        </td>
+      </tr>
+    </table>
+    <mat-paginator *ngIf="paginatorConfiguration" [ngStyle]="{'display': dataSource.hasData() ? 'block': 'none'}" class="paginator" [length]="paginatorLength()" [pageSizeOptions]="paginatorConfiguration.pageSizes" showFirstLastButtons></mat-paginator>
+    <div *ngIf="dataSource.loading | async" style="display: flex; justify-content: center; align-items: center;">
+      <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
+    </div>
+  </div>
+</div>
