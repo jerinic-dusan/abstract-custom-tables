@@ -9,7 +9,7 @@
     <table mat-table matSort
            [dataSource]="dataSource"
            [multiTemplateDataRows]="detailsConfiguration !== undefined"
-           [style]="styleConfiguration.styles"
+           [style]="styleConfiguration?.styles"
            class="mat-elevation-z8 mt-0 table">
       <ng-container matColumnDef="{{column}}" *ngFor="let column of dataSourceColumns; let index = index">
         <!-- Header cells -->
@@ -51,7 +51,7 @@
         <ng-container *ngIf="detailsConfiguration.customChildComponent ; else childTable">
           <ng-container
             [ngTemplateOutlet]="detailsConfiguration.customChildComponent"
-            [ngTemplateOutletContext]="detailsConfiguration.data"
+            [ngTemplateOutletContext]="details"
           ></ng-container>
         </ng-container>
         <ng-template #childTable>
@@ -59,7 +59,7 @@
             <td mat-cell class="expanded-row" *matCellDef="let element" [attr.colspan]="dataSourceColumns.length">
               <div class="element-detail" [@detailExpand]="element === selected ? 'expanded' : 'collapsed'">
                 <ngx-custom-table
-                  [data]="detailsConfiguration.data"
+                  [data]="details"
                   [styleConfiguration]="detailsConfiguration.childStyle">
                 </ngx-custom-table>
               </div>

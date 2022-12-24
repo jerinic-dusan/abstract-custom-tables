@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+.round-border {
+  margin: 2%;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  padding: 8px;
+}
+
+.text {
+  font-weight: lighter;
+  padding: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

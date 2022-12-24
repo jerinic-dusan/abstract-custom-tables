@@ -41,6 +41,7 @@ export class CustomTableComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChild('filter') filter!: ElementRef;
 
   @Input('data') data: TableData[] = [];
+  @Input('details') details: TableData[] | any;
   @Input('fetch') fetch: ((filter? : string,
                            sortDirection?: string,
                            pageIndex?: number,

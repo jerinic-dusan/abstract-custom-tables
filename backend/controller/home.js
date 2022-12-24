@@ -52,7 +52,7 @@ exports.editItem = async (req, res) => {
         return res.status(400).json(response);
     }
 }
-
+//todo possibly return true if success
 exports.deleteItem = async (req, res) => {
     try {
         const {id} = req.query;
@@ -99,7 +99,7 @@ exports.addItemDetail = async (req, res) => {
         }
 
         const addedItem = await database.addItemDetail(id, {name: name, value: value});
-        const response = utils.mapResponse(`Successfully added new item detail by name ${addedItem.name}`, {id: addedItem._id, name: addedItem.name, type: addedItem.type, price: addedItem.price, createdAt: addedItem.createdAt, details: addedItem.details});
+        const response = utils.mapResponse(`Successfully added new item detail by name ${addedItem.name}`, addedItem.details);
         res.status(200).json(response);
     } catch (error) {
         const response = utils.mapResponse(`Oops, something went wrong: ${error.message}`);
@@ -117,7 +117,7 @@ exports.editItemDetail = async (req, res) => {
         }
 
         const editedItem = await database.editItemDetail(itemId, detailId, {name: name, value: value});
-        const response = utils.mapResponse(`Successfully edited item detail by name ${name}`, {id: editedItem._id, name: editedItem.name, type: editedItem.type, price: editedItem.price, createdAt: editedItem.createdAt, details: editedItem.details});
+        const response = utils.mapResponse(`Successfully edited item detail by name ${name}`, editedItem.details);
         res.status(200).json(response);
     } catch (error) {
         const response = utils.mapResponse(`Oops, something went wrong: ${error.message}`);
@@ -148,7 +148,7 @@ exports.cartItems = async (req, res) => {
         const {userId} = req;
 
         const cartItems = await database.cartItems(userId);
-        const response = utils.mapResponse(`Successfully fetched cart items`, cartItems);
+        const response = utils.mapResponse(`Successfully fetched cart items`, cartItems.cart);
         res.status(200).json(response);
     } catch (error) {
         const response = utils.mapResponse(`Oops, something went wrong: ${error.message}`);
@@ -167,7 +167,7 @@ exports.addToCart = async (req, res) => {
         }
 
         const result = await database.addToCart(userId, itemId);
-        const response = utils.mapResponse(`Successfully added one item to cart`, result);
+        const response = utils.mapResponse(`Successfully added one item to cart`, result.cart);
         res.status(200).json(response);
     } catch (error) {
         const response = utils.mapResponse(`Oops, something went wrong: ${error.message}`);
@@ -186,7 +186,7 @@ exports.removeFromCart = async (req, res) => {
         }
 
         const result = await database.removeFromCart(userId, itemId);
-        const response = utils.mapResponse(`Successfully removed one item to cart`, result);
+        const response = utils.mapResponse(`Successfully removed one item to cart`, result.cart);
         res.status(200).json(response);
     } catch (error) {
         const response = utils.mapResponse(`Oops, something went wrong: ${error.message}`);

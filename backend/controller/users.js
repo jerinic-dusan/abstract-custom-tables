@@ -21,7 +21,7 @@ exports.login = async function (req, res) {
             // Creating a new token and assigning it to the user
             user.token = createToken(username, user._id);
 
-            const response = utils.mapResponse("Successful log in", {username: username, token: user.token});
+            const response = utils.mapResponse("Successful log in", {username: username, email: user.email, token: user.token});
             return res.status(200).json(response);
         }
         const response = utils.mapResponse("Invalid credentials");
@@ -63,7 +63,7 @@ exports.register = async function (req, res) {
         // Creating a new token and assigning it to the user
         user.token = createToken(username, user._id);
 
-        const response = utils.mapResponse("Successful registration", {username: username, token: user.token});
+        const response = utils.mapResponse("Successful registration", {username: username, email: user.email, token: user.token});
         res.status(200).json(response);
     } catch (error) {
         const response = utils.mapResponse(`Oops, something went wrong: ${error.message}`);
