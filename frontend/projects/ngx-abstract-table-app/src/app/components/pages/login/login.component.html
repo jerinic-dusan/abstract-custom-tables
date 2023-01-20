@@ -1,1 +1,20 @@
-<p>login works!</p>
+<mat-card class="round-border">
+  <mat-card-title>Login</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+      <p>
+        <mat-form-field appearance="standard">
+          <input type="text" matInput placeholder="Username" formControlName="username" autocomplete="new-username">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="standard">
+          <input type="password" matInput placeholder="Password" formControlName="password" autocomplete="new-password">
+        </mat-form-field>
+      </p>
+      <div class="button">
+        <button mat-flat-button type="submit" color="primary" mat-button>Login</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,5 +1,7 @@
+@import "../../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
+
 .round-border {
-  margin: 2%;
+  margin: 1%;
   border-radius: 8px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   padding: 8px;
@@ -11,4 +13,21 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.action-row {
+  display: inline-flex;
+  justify-content: center;
+  grid-gap: 8px;
+  gap: 8px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: lighter;
+  padding-bottom: 0;
+  margin: 0;
+  text-align: center;
 }

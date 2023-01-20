@@ -1,0 +1,22 @@
+:host {
+  min-height: 350px;
+}
+
+mat-icon {
+  font-size: 36px;
+}
+
+h2 {
+  text-align: center;
+}
+
+.icon-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+mat-dialog-title, mat-dialog-content, mat-dialog-actions {
+  display: flex;
+  justify-content: center;
+}

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from "../../../services/user.service";
+import {User} from "../../../models/user.model";
+import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'app-home',
@@ -7,8 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() {
+  public loggedUser: Observable<User | null> = of(null);
 
+  constructor(private userService: UserService) {
+    this.loggedUser = userService.user$;
+    userService.checkLoggedUser();
+  }
+
+  public signOut(): void {
+    this.userService.signOut();
   }
 
   ngOnInit(): void {

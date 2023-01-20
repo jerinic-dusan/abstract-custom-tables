@@ -1,4 +1,21 @@
+<h2 class="title">Available items</h2>
+<div class="action-row">
+  <button mat-flat-button color="primary" (click)="addItem()">Add item</button>
+  <button mat-flat-button color="accent" (click)="editItem()">Edit item</button>
+  <button mat-flat-button color="warn" (click)="deleteItem()">Delete item</button>
+  <button mat-flat-button color="primary" (click)="addItemDetail()">Add item detail</button>
+  <button mat-flat-button color="accent" (click)="editItemDetail()">Edit item detail</button>
+  <button mat-flat-button color="warn" (click)="deleteItemDetail()">Delete item detail</button>
+</div>
 <ngx-custom-table
+  [configuration]="configuration"
   [data]="items$ | async"
-  [detailsConfiguration]=""
+  [details]="details$ | async"
+  [filterConfiguration]="filterConfiguration"
+  [paginatorConfiguration]="paginatorConfiguration"
+  [sortConfiguration]="sortingConfiguration"
+  [styleConfiguration]="styleConfiguration"
+  [fetch]="fetchAllItemsPages.bind(this)"
+  (rowClicked)="itemClicked($event)"
+  (childClicked)="childClicked($event)"
 ></ngx-custom-table>

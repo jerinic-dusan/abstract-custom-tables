@@ -56,7 +56,8 @@ export class UserMapper implements Mapper<User> {
     return new User(
       item.username,
       item.email,
-      item.token
+      item.token,
+      item.cart.map(cartItem => new Item(cartItem._id, cartItem.name, cartItem.type, cartItem.price, cartItem.createdAt))
     );
   }
 }

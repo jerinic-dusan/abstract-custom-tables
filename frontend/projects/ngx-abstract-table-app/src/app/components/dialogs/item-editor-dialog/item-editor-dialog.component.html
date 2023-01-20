@@ -1,0 +1,24 @@
+<form class="form-container" [formGroup]="form" (ngSubmit)="submitForm()">
+  <h2 mat-dialog-title>Item editor</h2>
+  <mat-dialog-content>
+    <mat-form-field appearance="standard" class="form-field">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" formControlName="name">
+      <mat-error *ngIf="form.get('name')?.errors?.required">Name is required</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="standard" class="form-field">
+      <mat-label>Type</mat-label>
+      <input matInput type="text" formControlName="type">
+      <mat-error *ngIf="form.get('type')?.errors?.required">Type is required</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="standard" class="form-field">
+      <mat-label>Price</mat-label>
+      <input matInput type="text" formControlName="price">
+      <mat-error *ngIf="form.get('price')?.errors?.required">Price is required</mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions class="actions">
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Submit</button>
+    <button mat-raised-button color="warn" type="button" (click)="onNoClick()">Cancel</button>
+  </mat-dialog-actions>
+</form>

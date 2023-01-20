@@ -1,1 +1,29 @@
-<p>home works!</p>
+<mat-toolbar color="primary">
+  <button mat-icon-button style="margin-right: 8px;">
+    <mat-icon style="font-size: 26px">home</mat-icon>
+  </button>
+  <span>ngx-abstract-table</span>
+  <span class="example-spacer"></span>
+  <div class="user-info" *ngIf="loggedUser | async as user">
+    <p class="username">{{user.username}}</p>
+    <p class="email">{{user.email}}</p>
+  </div>
+  <button style="margin-left: 8px;" mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon style="font-size: 26px">emoji_people</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="signOut()">
+      <mat-icon>logout</mat-icon>
+      <span>Sign out</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+<div class="flex-container">
+  <div class="flex-items round-border">
+    <app-items></app-items>
+  </div>
+  <div class="flex-cart round-border">
+    <app-cart></app-cart>
+  </div>
+</div>

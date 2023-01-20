@@ -12,7 +12,7 @@ export class UtilsService {
   constructor() { }
 
   public checkForChanges(change: SimpleChange): boolean {
-    return change !== undefined && change.currentValue !== undefined && change.currentValue !== change.previousValue;
+    return change !== undefined && change.currentValue !== null && change.currentValue !== undefined && change.currentValue !== change.previousValue;
   }
 
   public getColumns(classObj: TableData): string[] {

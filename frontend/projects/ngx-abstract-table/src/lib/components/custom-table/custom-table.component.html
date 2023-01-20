@@ -2,13 +2,13 @@
   <div class="filter-container">
     <mat-form-field *ngIf="filterConfiguration" [appearance]="filterConfiguration.filterAppearance" class="filter">
       <mat-label>{{filterConfiguration.filterLabel}}</mat-label>
-      <input matInput [placeholder]="filterConfiguration.filterPlaceholder" autofocus>
+      <input #filter matInput [placeholder]="filterConfiguration.filterPlaceholder" autofocus>
     </mat-form-field>
   </div>
   <div class="custom-table-max-height">
     <table mat-table matSort
            [dataSource]="dataSource"
-           [multiTemplateDataRows]="detailsConfiguration !== undefined"
+           [multiTemplateDataRows]="details !== undefined"
            [style]="styleConfiguration?.styles"
            class="mat-elevation-z8 mt-0 table">
       <ng-container matColumnDef="{{column}}" *ngFor="let column of dataSourceColumns; let index = index">
@@ -47,25 +47,23 @@
         </ng-container>
       </ng-container>
 
-      <ng-container *ngIf="detailsConfiguration">
-        <ng-container *ngIf="detailsConfiguration.customChildComponent ; else childTable">
-          <ng-container
-            [ngTemplateOutlet]="detailsConfiguration.customChildComponent"
-            [ngTemplateOutletContext]="details"
-          ></ng-container>
-        </ng-container>
-        <ng-template #childTable>
-          <ng-container matColumnDef="expandedDetail">
-            <td mat-cell class="expanded-row" *matCellDef="let element" [attr.colspan]="dataSourceColumns.length">
-              <div class="element-detail" [@detailExpand]="element === selected ? 'expanded' : 'collapsed'">
-                <ngx-custom-table
-                  [data]="details"
-                  [styleConfiguration]="detailsConfiguration.childStyle">
-                </ngx-custom-table>
-              </div>
-            </td>
-          </ng-container>
-        </ng-template>
+      <ng-container matColumnDef="expandedDetail" *ngIf="details">
+        <td mat-cell class="expanded-row" *matCellDef="let element" [attr.colspan]="dataSourceColumns.length">
+          <div class="element-detail" [@detailExpand]="element === selected ? 'expanded' : 'collapsed'">
+            <ng-container *ngIf="customChildComponent; else childTable">
+              <ng-container
+                [ngTemplateOutlet]="customChildComponent"
+              ></ng-container>
+            </ng-container>
+            <ng-template #childTable>
+              <ngx-custom-table
+                [data]="details"
+                [styleConfiguration]="styleConfiguration"
+                (rowClicked)="detailClicked($event)">
+              </ngx-custom-table>
+            </ng-template>
+          </div>
+        </td>
       </ng-container>
 
       <!-- Header row -->
@@ -73,13 +71,13 @@
       <!-- Data row -->
       <tr mat-row
           *matRowDef="let element; let index = dataIndex; columns: dataSourceColumns;"
-          [class.clicked-row]="selected === element"
+          [style.background-color]="rowBackgroundColor(element)"
           [ngClass]="{alternating: index % 2 === 0 && styleConfiguration && styleConfiguration.alternatingRowColors}"
           (click)="elementClicked(element)"
           class="element-row">
       </tr>
       <!-- Details row -->
-      <ng-container *ngIf="detailsConfiguration">
+      <ng-container *ngIf="details">
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
       </ng-container>
       <!-- Footer row -->
@@ -92,7 +90,7 @@
         </td>
       </tr>
     </table>
-    <mat-paginator *ngIf="paginatorConfiguration" [ngStyle]="{'display': dataSource.hasData() ? 'block': 'none'}" class="paginator" [length]="paginatorLength()" [pageSizeOptions]="paginatorConfiguration.pageSizes" showFirstLastButtons></mat-paginator>
+    <mat-paginator *ngIf="paginatorConfiguration" [ngStyle]="{'display': dataSource.hasData() ? 'block': 'none'}" class="paginator" [length]="paginatorLength | async" [pageSizeOptions]="paginatorConfiguration.pageSizes" showFirstLastButtons></mat-paginator>
     <div *ngIf="dataSource.loading | async" style="display: flex; justify-content: center; align-items: center;">
       <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
     </div>

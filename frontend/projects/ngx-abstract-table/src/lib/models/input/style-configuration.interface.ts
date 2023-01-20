@@ -1,5 +1,6 @@
 export interface StyleConfiguration {
-  styles: any
+  styles?: any
   childStyles?: any
-  alternatingRowColors: boolean
+  alternatingRowColors?: boolean
+  selectedRowColor?: string
 }

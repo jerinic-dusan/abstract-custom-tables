@@ -1,0 +1,16 @@
+.details-container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 5px;
+}
+
+.detail {
+  width: 100%;
+}
+
+.detail-text {
+  font-size: 16px;
+  font-weight: lighter;
+  line-height: 20px;
+}

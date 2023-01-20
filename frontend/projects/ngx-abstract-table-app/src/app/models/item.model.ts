@@ -34,7 +34,7 @@ export class Item implements TableData{
   }
 
   public dateFormatter(date: Date): string {
-    return date.toLocaleDateString("en-GB");
+    return date.toLocaleString("en-GB");
   }
 
   public get name(): string {
@@ -87,7 +87,7 @@ export class ItemMapper implements Mapper<Item> {
       item.name,
       item.type,
       item.price,
-      item.createdAt
+      new Date(item.createdAt)
     );
   }
 }

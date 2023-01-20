@@ -9,8 +9,8 @@ import {CustomDialogData} from "../../../models/custom-dialog-data.interface";
 })
 export class CustomDialogComponent implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<CustomDialogData>,
-              @Inject(MAT_DIALOG_DATA) private data: CustomDialogData) { }
+  constructor(private dialogRef: MatDialogRef<CustomDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: CustomDialogData) { }
 
   ngOnInit(): void {
   }

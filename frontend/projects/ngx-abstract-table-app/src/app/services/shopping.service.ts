@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {Item, ItemMapper} from "../models/item.model";
 import {ApiResponse} from "../models/responses/api-response.interface";
-import {catchError, map} from "rxjs/operators";
+import {catchError, map, shareReplay} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
 import {UtilsService} from "./utils.service";
 import {ItemResponse} from "../models/responses/item-response.interface";
 import {Detail, DetailMapper} from "../models/detail.model";
 import {DetailResponse} from "../models/responses/detail-response.interface";
+import {PagedItemsResponse} from "../models/responses/paged-items-response.interface";
+import {PagedItems, PagedItemsMapper} from "../models/paged-items.model";
 
 @Injectable({
   providedIn: 'root'
@@ -15,18 +17,54 @@ import {DetailResponse} from "../models/responses/detail-response.interface";
 export class ShoppingService {
 
   private url: string = 'http://localhost:8080/home/';
+  private reloadCart = new BehaviorSubject<boolean>(false);
+  public reloadCart$ = this.reloadCart.asObservable();
+
+  private selectedItem = new BehaviorSubject<Item | null>(null);
+  public selectedItem$ = this.selectedItem.asObservable();
 
   constructor(private http: HttpClient,
               private utilsService: UtilsService,
               private itemMapper: ItemMapper,
+              private pagedItemsMapper: PagedItemsMapper,
               private detailMapper: DetailMapper) {}
+
+  public setReloadCart(bool: boolean): void {
+    this.reloadCart.next(bool);
+  }
+
+  public setSelectedItem(item: Item | null): void {
+    this.selectedItem.next(item);
+  }
 
   public fetchAllItems(): Observable<Item[]> {
     return this.http.get<ApiResponse<ItemResponse[]>>(this.url.concat('items'), {
       headers: this.utilsService.initHeaders()
     }).pipe(
       map((response: ApiResponse<ItemResponse[]>) => response.data.map(item => this.itemMapper.map(item))),
-      catchError((errResponse: ApiResponse<any>) => this.utilsService.handleApiError(errResponse, []))
+      catchError((errResponse: ApiResponse<any>) => this.utilsService.handleApiError(errResponse, [])),
+      shareReplay()
+    );
+  }
+
+  public fetchAllItemsPaged(filter? : string,
+                            sortColumn?: string,
+                            sortDirection?: number,
+                            pageIndex?: number,
+                            pageSize?: number): Observable<PagedItems> {
+    return this.http.get<ApiResponse<PagedItemsResponse>>(this.url.concat('items-paged'), {
+      params: {
+        page: pageIndex ? pageIndex : 1,
+        size: pageSize ? pageSize : 5,
+        sortColumn: sortColumn ? sortColumn : 'name',
+        sortDirection: sortDirection ? sortDirection : 1,
+        filter: filter ? filter : ''
+      },
+      headers: this.utilsService.initHeaders()
+    }).pipe(
+      map((response: ApiResponse<PagedItemsResponse>) => this.pagedItemsMapper.map(response.data)),
+      catchError((errResponse: ApiResponse<any>) => this.utilsService.handleApiError(errResponse, new PagedItems([], 0))),
+      shareReplay()
     );
   }
 
@@ -77,7 +115,8 @@ export class ShoppingService {
       headers: this.utilsService.initHeaders()
     }).pipe(
       map((response: ApiResponse<DetailResponse[]>) => response.data.map(item => this.detailMapper.map(item))),
-      catchError((errResponse: ApiResponse<any>) => this.utilsService.handleApiError(errResponse, []))
+      catchError((errResponse: ApiResponse<any>) => this.utilsService.handleApiError(errResponse, [])),
+      shareReplay()
     );
   }
 
@@ -126,7 +165,8 @@ export class ShoppingService {
       headers: this.utilsService.initHeaders()
     }).pipe(
       map((response: ApiResponse<ItemResponse[]>) => response.data.map(item => this.itemMapper.map(item))),
-      catchError((errResponse: ApiResponse<any>) => this.utilsService.handleApiError(errResponse, []))
+      catchError((errResponse: ApiResponse<any>) => this.utilsService.handleApiError(errResponse, [])),
+      shareReplay()
     );
   }
 
@@ -161,7 +201,8 @@ export class ShoppingService {
       headers: this.utilsService.initHeaders()
     }).pipe(
       map((response: ApiResponse<DetailResponse[]>) => response.data.map(item => this.detailMapper.map(item))),
-      catchError((errResponse: ApiResponse<any>) => this.utilsService.handleApiError(errResponse, []))
+      catchError((errResponse: ApiResponse<any>) => this.utilsService.handleApiError(errResponse, [])),
+      shareReplay()
     );
   }
 }

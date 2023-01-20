@@ -1,1 +1,19 @@
-<p>cart works!</p>
+<h2 class="title">Cart items</h2>
+<div class="action-row">
+  <button mat-flat-button color="primary" (click)="addToCart()">Add to cart</button>
+  <button mat-flat-button color="accent" (click)="removeFromCart()">Remove from cart</button>
+</div>
+<ngx-custom-table
+  [configuration]="configuration"
+  [data]="items$ | async"
+  [details]="details$ | async"
+  (rowClicked)="itemClicked($event)"
+  [filterConfiguration]="filterConfiguration"
+  [sortConfiguration]="sortingConfiguration"
+  [styleConfiguration]="styleConfiguration"
+  [customChildComponent]="customChild"
+></ngx-custom-table>
+
+<ng-template #customChild>
+  <app-cart-item-details [details]="details$ | async"></app-cart-item-details>
+</ng-template>

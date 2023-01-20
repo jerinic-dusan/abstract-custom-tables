@@ -1,1 +1,14 @@
-<p>custom-dialog works!</p>
+<div class="form-container">
+  <h2 mat-dialog-title>{{data.title}}</h2>
+  <div class="icon-row">
+    <mat-icon color="warn" [fontIcon]="data.icon">{{data.icon}}</mat-icon>
+  </div>
+  <mat-dialog-content>
+    <p>{{data.message}}</p>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="onOkayClick()" color="primary">
+      {{data.action}}
+    </button>
+  </mat-dialog-actions>
+</div>

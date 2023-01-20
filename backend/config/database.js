@@ -24,6 +24,26 @@ const fetchAllItems = async () => {
     return Item.find().select('-details -__v');
 }
 
+const fetchAllPagedItems = async (skip, limit, sortColumn, sortDirection, filter) => {
+    const regex = new RegExp(filter, 'i')
+    const filterObj = {
+        $or: [
+            {name: {$regex: regex}},
+            {type: {$regex: regex}},
+            {price: {$regex: regex}}
+        ]
+    };
+    const result = await Promise.all([
+        Item.count(filterObj),
+        Item.find(filterObj)
+            .sort([[sortColumn, sortDirection], ['_id', 1]])
+            .skip(skip)
+            .limit(limit)
+            .select('-details -__v')
+    ]);
+    return {items: result[1], count: result[0]};
+}
+
 const addItem = async (item) => {
     return Item.create(item);
 }
@@ -79,7 +99,7 @@ const addToCart = async (userId, itemId) => {
             $push: { cart: itemId }
         },
         { new: true, useFindAndModify: false }
-    ).populate('cart', '-__v -_id -details').select('-__v -_id -username -email -password');
+    ).populate('cart', '-__v -details').select('-__v -_id -username -email -password');
 }
 
 const removeFromCart = async (userId, itemId) => {
@@ -95,6 +115,7 @@ const db = {};
 
 db.connect = connect;
 db.fetchAllItems = fetchAllItems;
+db.fetchAllPagedItems = fetchAllPagedItems;
 db.addItem = addItem;
 db.editItem = editItem;
 db.deleteItem = deleteItem;

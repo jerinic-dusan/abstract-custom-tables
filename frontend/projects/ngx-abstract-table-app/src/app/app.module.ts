@@ -10,6 +10,15 @@ import { RegisterComponent } from './components/pages/register/register.componen
 import { ItemsComponent } from './components/tables/items/items.component';
 import { CartComponent } from './components/tables/cart/cart.component';
 import {CustomTableModule} from "ngx-abstract-table";
+import {HttpClientModule} from "@angular/common/http";
+import {MaterialModule} from "./material/material.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {OverlayModule} from "@angular/cdk/overlay";
+import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
+import { ItemEditorDialogComponent } from './components/dialogs/item-editor-dialog/item-editor-dialog.component';
+import { DetailEditorDialogComponent } from './components/dialogs/detail-editor-dialog/detail-editor-dialog.component';
+import { CartItemDetailsComponent } from './components/tables/cart-item-details/cart-item-details.component';
 
 @NgModule({
   declarations: [
@@ -19,14 +28,30 @@ import {CustomTableModule} from "ngx-abstract-table";
     LoginComponent,
     RegisterComponent,
     ItemsComponent,
-    CartComponent
+    CartComponent,
+    ItemEditorDialogComponent,
+    DetailEditorDialogComponent,
+    CartItemDetailsComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    CustomTableModule
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        AppRoutingModule,
+        CustomTableModule,
+        MaterialModule,
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientModule,
+        OverlayModule,
+    ],
+  providers: [
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -5,6 +5,7 @@ const homeController = require('../controller/home');
 
 router.get('/', auth, homeController.home);
 router.get('/items', auth, homeController.fetchAllItems);
+router.get('/items-paged', auth, homeController.fetchAllPagedItems);
 router.post('/add-item', auth, homeController.addItem);
 router.put('/edit-item', auth, homeController.editItem);
 router.delete('/delete-item', auth, homeController.deleteItem);

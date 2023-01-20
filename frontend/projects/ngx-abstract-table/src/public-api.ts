@@ -14,7 +14,6 @@ export * from './lib/models/enums/sort-arrow-position.enum';
 
 // Inputs
 export * from './lib/models/input/configuration.enum';
-export * from './lib/models/input/details-configuration.interface';
 export * from './lib/models/input/filter-configuration.interface';
 export * from './lib/models/input/footer-configuration.interface';
 export * from './lib/models/input/header-configuration.interface';
