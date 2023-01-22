@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
-import {Observable} from "rxjs";
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {JwtHelperService} from "@auth0/angular-jwt";
 
+/**
+ * Authentication guard which checks whether the logged users token is expired and if the home page can be visited
+ */
 @Injectable({
   providedIn: 'root'
 })

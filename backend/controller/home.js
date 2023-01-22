@@ -1,11 +1,17 @@
 const database = require('../config/database');
 const utils = require('../utils/utils');
 
+/**
+ * Dummy method for route and auth testing
+ */
 exports.home = async (req, res) => {
     const response = utils.mapResponse(200, "Welcome home 🙌");
     res.status(200).json(response);
 }
 
+/**
+ * Method parses the request, attempts to fetch all items and returns the adequate status response
+ */
 exports.fetchAllItems = async (req, res) => {
     try {
         const items = await database.fetchAllItems();
@@ -17,6 +23,9 @@ exports.fetchAllItems = async (req, res) => {
     }
 }
 
+/**
+ * Method parses the request, validates sent data, attempts to fetch filtered, sorted and paginated items and returns the adequate status response
+ */
 exports.fetchAllPagedItems = async (req, res) => {
     try {
         let {page, size, sortColumn, sortDirection, filter} = req.query;
@@ -56,6 +65,9 @@ exports.fetchAllPagedItems = async (req, res) => {
     }
 }
 
+/**
+ * Method parses the request, validates sent data, attempts to add new item and returns the adequate status response
+ */
 exports.addItem = async (req, res) => {
     try {
         const {name, type, price} = req.body;
@@ -74,6 +86,9 @@ exports.addItem = async (req, res) => {
     }
 }
 
+/**
+ * Method parses the request, validates sent data, attempts to edit existing item and returns the adequate status response
+ */
 exports.editItem = async (req, res) => {
     try {
         const {id, name, type, price} = req.body;
@@ -91,7 +106,10 @@ exports.editItem = async (req, res) => {
         return res.status(500).json(response);
     }
 }
-//todo possibly return true if success
+
+/**
+ * Method parses the request, validates sent data, attempts to delete existing item and returns the adequate status response
+ */
 exports.deleteItem = async (req, res) => {
     try {
         const {id} = req.query;
@@ -110,6 +128,9 @@ exports.deleteItem = async (req, res) => {
     }
 }
 
+/**
+ * Method parses the request, validates sent data, attempts to fetch all item details and returns the adequate status response
+ */
 exports.getItemDetails = async (req, res) => {
     try {
         const {id} = req.query;
@@ -128,6 +149,9 @@ exports.getItemDetails = async (req, res) => {
     }
 }
 
+/**
+ * Method parses the request, validates sent data, attempts to add new detail to an item and returns the adequate status response
+ */
 exports.addItemDetail = async (req, res) => {
     try {
         const {id, name, value} = req.body;
@@ -146,6 +170,9 @@ exports.addItemDetail = async (req, res) => {
     }
 }
 
+/**
+ * Method parses the request, validates sent data, attempts to edit existing item detail and returns the adequate status response
+ */
 exports.editItemDetail = async (req, res) => {
     try {
         const {itemId, detailId, name, value} = req.body;
@@ -164,6 +191,9 @@ exports.editItemDetail = async (req, res) => {
     }
 }
 
+/**
+ * Method parses the request, validates sent data, attempts to delete existing item detail and returns the adequate status response
+ */
 exports.deleteItemDetail = async (req, res) => {
     try {
         const {itemId, detailId} = req.query;
@@ -182,6 +212,9 @@ exports.deleteItemDetail = async (req, res) => {
     }
 }
 
+/**
+ * Method parses the request, validates sent data, attempts to fetch all user cart items and returns the adequate status response
+ */
 exports.cartItems = async (req, res) => {
     try {
         const {userId} = req;
@@ -195,6 +228,9 @@ exports.cartItems = async (req, res) => {
     }
 }
 
+/**
+ * Method parses the request, validates sent data, attempts to add an item to user cart and returns the adequate status response
+ */
 exports.addToCart = async (req, res) => {
     try {
         const {userId} = req;
@@ -214,6 +250,9 @@ exports.addToCart = async (req, res) => {
     }
 }
 
+/**
+ * Method parses the request, validates sent data, attempts to remove an item from user cart and returns the adequate status response
+ */
 exports.removeFromCart = async (req, res) => {
     try {
         const {userId} = req;
@@ -233,6 +272,9 @@ exports.removeFromCart = async (req, res) => {
     }
 }
 
+/**
+ * Method parses the request, validates sent data, attempts to fetch item details and returns the adequate status response
+ */
 exports.getCartItemDetails = async (req, res) => {
     try {
         const {itemId} = req.query;

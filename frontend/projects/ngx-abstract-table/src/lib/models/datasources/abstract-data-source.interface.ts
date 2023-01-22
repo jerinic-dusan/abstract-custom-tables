@@ -4,6 +4,9 @@ import {TableData} from "../table-data.interface";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 
+/**
+ * Abstract data source interface for achieving polymorphism and identical interaction with data sources no matter the implementation
+ */
 export interface AbstractDataSource {
   loading: Observable<boolean>;
   connect(collectionViewer: CollectionViewer): Observable<TableData[]>

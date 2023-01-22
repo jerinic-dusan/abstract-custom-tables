@@ -1,5 +1,8 @@
 const database = require('../config/database');
 
+/**
+ * Method inserts dummy data into the database
+ */
 exports.run = () => {
     const allItems = [
         {

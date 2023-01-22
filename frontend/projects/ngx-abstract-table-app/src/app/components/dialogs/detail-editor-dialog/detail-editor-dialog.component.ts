@@ -3,6 +3,9 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Detail} from "../../../models/detail.model";
 
+/**
+ * Detail editor dialog component for editing detail information for a new or existing detail
+ */
 @Component({
   selector: 'app-detail-editor-dialog',
   templateUrl: './detail-editor-dialog.component.html',

@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+/**
+ * Mongoose user model schema with reference to item document
+ */
 const userSchema = new mongoose.Schema({
     username: { type: String, unique: true },
     email: { type: String },

@@ -5,6 +5,11 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 
+/**
+ * Client side data source implementation for interacting with data completely on client side.
+ * This implementation used MatTableDataSource under the hood as most of the angular material table examples show.
+ * Filtering, pagination and sorting is done on passed data within the datasource.
+ */
 export class ClientSideDataSource extends MatTableDataSource<TableData> implements AbstractDataSource{
 
   public loading: Observable<boolean>;

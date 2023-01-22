@@ -20,6 +20,9 @@ import {
   TableData
 } from "ngx-abstract-table";
 
+/**
+ * Items component for displaying "store" items and handling their actions.
+ */
 @Component({
   selector: 'app-items',
   templateUrl: './items.component.html',
@@ -47,6 +50,14 @@ export class ItemsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Method for fetching data from the back-end
+   * @param filter - Specifies filter value
+   * @param sortColumn - Specifies column for sorting
+   * @param sortDirection - Specifies sort direction
+   * @param pageIndex - Specifies next or previous page index
+   * @param pageSize - Specifies page size
+   */
   public fetchAllItemsPages(filter? : string, sortColumn?: string, sortDirection?: string, pageIndex?: number, pageSize?: number): void {
     const column = sortColumn && sortColumn.startsWith('_') ? sortColumn.slice(1) : sortColumn;
     const direction = sortDirection ? sortDirection === 'asc' ? 1 : -1 : 1;
@@ -59,6 +70,9 @@ export class ItemsComponent implements OnInit {
       })
   }
 
+  /**
+   * Method opens an item editor dialog and attempts to add a new item to the observable array
+   */
   public addItem(): void {
     this.openDialog(ItemEditorDialogComponent).afterClosed().subscribe(result => {
       if (result && result.data){
@@ -71,6 +85,9 @@ export class ItemsComponent implements OnInit {
     });
   }
 
+  /**
+   * Method opens an item editor dialog and attempts to edit an existing item and change it in the observable array
+   */
   public editItem(): void {
     if (this.selectedItem){
       this.openDialog(ItemEditorDialogComponent, this.selectedItem).afterClosed().subscribe(result => {
@@ -87,6 +104,9 @@ export class ItemsComponent implements OnInit {
     }
   }
 
+  /**
+   * Method attempts to delete an item and remove it from the observable array
+   */
   public deleteItem(): void {
     if (this.selectedItem){
       this.shoppingService.deleteItem(this.selectedItem.id).subscribe(value => {
@@ -102,12 +122,18 @@ export class ItemsComponent implements OnInit {
     }
   }
 
+  /**
+   * Method fetches all item details and places them in details observable array
+   */
   public fetchItemDetails(): void {
     if (this.selectedItem){
       this.details$ = this.shoppingService.fetchItemDetails(this.selectedItem.id);
     }
   }
 
+  /**
+   * Method opens a detail editor dialog and attempts to add a new detail to the observable array
+   */
   public addItemDetail(): void {
     if (this.selectedItem){
       this.openDialog(DetailEditorDialogComponent).afterClosed().subscribe(result => {
@@ -122,6 +148,9 @@ export class ItemsComponent implements OnInit {
     }
   }
 
+  /**
+   * Method opens a detail editor dialog and attempts to edit an existing detail in the observable array
+   */
   public editItemDetail(): void {
     if (this.selectedItem && this.selectedItemDetail){
       this.openDialog(DetailEditorDialogComponent, this.selectedItemDetail).afterClosed().subscribe(result => {
@@ -137,6 +166,9 @@ export class ItemsComponent implements OnInit {
     }
   }
 
+  /**
+   * Method attempts to delete an existing detail and remove it from the observable array
+   */
   public deleteItemDetail(): void {
     if (this.selectedItem && this.selectedItemDetail){
       this.shoppingService.deleteItemDetail(this.selectedItem.id, this.selectedItemDetail.id).subscribe(value => {
@@ -151,22 +183,39 @@ export class ItemsComponent implements OnInit {
     }
   }
 
+  /**
+   * Method handles the item click event and fetches item details if
+   */
   public itemClicked(item: TableData | null): void {
     this.selectedItem = <Item>item;
     this.fetchItemDetails();
     this.shoppingService.setSelectedItem(this.selectedItem);
   }
 
+  /**
+   * Method handles the child click event
+   */
   public childClicked(child: TableData | null): void {
     this.selectedItemDetail = <Detail>child;
   }
 
+  /**
+   * Method adds an item to the item array if item is present
+   * @param items - Specifies the item array
+   * @param item - Specifies the item to be added
+   */
   private addItemIfExists(items: Item[], item: Item | null): void {
     if (item){
       items.push(item);
     }
   }
 
+  /**
+   * Method finds the item to be edited and replaces the old one with it
+   * @param items - Specifies the item array
+   * @param item - Specifies the item to be edited
+   * @private
+   */
   private editItemIfExists(items: Item[], item: Item | null): void {
     const foundItem = item ? items.find(element => element.id === item.id) : null;
     const foundIndex = foundItem ? items.indexOf(foundItem) : -1
@@ -175,6 +224,12 @@ export class ItemsComponent implements OnInit {
     }
   }
 
+  /**
+   * Method opens the passed custom dialog and return the dialog ref
+   * @param component - Specifies the component dialog
+   * @param data - Specifies the dialog data
+   * @private
+   */
   private openDialog<T>(component: ComponentType<T>, data: Item | Detail | null = null): MatDialogRef<T> {
     return this.dialog.open(component, {
       width: '350px',

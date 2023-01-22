@@ -3,6 +3,9 @@ const User = require('../model/user');
 const bcrypt = require('bcryptjs');
 const utils = require('../utils/utils');
 
+/**
+ * Method parses the request, validates sent data, attempts to log in and returns the adequate status response
+ */
 exports.login = async function (req, res) {
     try {
         // Parsing user input
@@ -32,6 +35,9 @@ exports.login = async function (req, res) {
     }
 }
 
+/**
+ * Method parses the request, validates sent data, attempts to register the user and returns the adequate status response
+ */
 exports.register = async function (req, res) {
     try {
         // Parsing user input
@@ -71,6 +77,9 @@ exports.register = async function (req, res) {
     }
 }
 
+/**
+ * Method parses the request, validates sent data, attempts to fetch user information and returns the adequate status response
+ */
 exports.reload = async function(req, res) {
     try {
         const {username} = req;
@@ -87,6 +96,9 @@ exports.reload = async function(req, res) {
     }
 }
 
+/**
+ * Method creates new signed jwt token
+ */
 function createToken(username, userId) {
     return jwt.sign(
         {

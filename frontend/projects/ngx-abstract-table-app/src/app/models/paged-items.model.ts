@@ -3,6 +3,9 @@ import {Mapper} from "./mapper.interface";
 import {Item} from "./item.model";
 import {PagedItemsResponse} from "./responses/paged-items-response.interface";
 
+/**
+ * Paged items class which encapsulates items array and total data count
+ */
 export class PagedItems {
   private readonly _items: Item[];
   private readonly _count: number;
@@ -21,6 +24,9 @@ export class PagedItems {
   }
 }
 
+/**
+ * Injectable paged items mapper which converts a paged items response to a mapped paged items class
+ */
 @Injectable({providedIn: "root"})
 export class PagedItemsMapper implements Mapper<PagedItems> {
   public map(response: PagedItemsResponse): PagedItems {

@@ -3,6 +3,11 @@ import {UserService} from "../../../services/user.service";
 import {User} from "../../../models/user.model";
 import {Observable, of} from "rxjs";
 
+/**
+ * Home page component displaying both all items and cart items components.
+ * This component also handles the reload page event.
+ * As this is a single page web-app and if reload is omitted, backend needs to resend us needed user information.
+ */
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',

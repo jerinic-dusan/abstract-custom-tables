@@ -3,6 +3,9 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Item} from "../../../models/item.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
+/**
+ * Item editor dialog component for editing item information for a new or existing item
+ */
 @Component({
   selector: 'app-item-editor-dialog',
   templateUrl: './item-editor-dialog.component.html',

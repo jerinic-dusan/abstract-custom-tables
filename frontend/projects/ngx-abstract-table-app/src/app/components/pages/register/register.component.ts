@@ -3,6 +3,9 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../services/user.service";
 import {User} from "../../../models/user.model";
 
+/**
+ * Register page handles all register logic and redirects the user to home page in case of the successful register attempt
+ */
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',

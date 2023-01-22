@@ -9,6 +9,10 @@ import {LoginResponse} from "../models/responses/login-response.interface";
 import {RegisterResponse} from "../models/responses/register-response.interface";
 import {Router} from "@angular/router";
 
+/**
+ * User service encapsulates all user related http requests to the back-end.
+ * It also holds the information for current logged user as well as handling the post log in and log out cleanup.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -25,6 +29,10 @@ export class UserService {
               private utilsService: UtilsService,
               private userMapper: UserMapper) { }
 
+  /**
+   * Method creates a http post request to attempt to log in the user and returns a mapped observable.
+   * If error is omitted, it's handled and a null value is returned in an observable.
+   */
   public login(username: string, password: string): Observable<User | null> {
     return this.http.post<ApiResponse<LoginResponse>>(this.url.concat('login'), {
       username: username,
@@ -35,6 +43,10 @@ export class UserService {
     );
   }
 
+  /**
+   * Method creates a http post request to attempt to register the user and returns a mapped observable.
+   * If error is omitted, it's handled and a null value is returned in an observable.
+   */
   public register(username: string, email: string, password: string): Observable<User | null> {
     return this.http.post<ApiResponse<RegisterResponse>>(this.url.concat('register'), {
       username: username,
@@ -46,6 +58,10 @@ export class UserService {
     );
   }
 
+  /**
+   * Method creates a http get request to fetch user information and returns a mapped observable.
+   * If error is omitted, it's handled and a null value is returned in an observable.
+   */
   private reload(): Observable<User | null> {
     return this.http.get<ApiResponse<LoginResponse>>(this.url.concat('reload'), {
       headers: this.utilsService.initHeaders()
@@ -56,8 +72,8 @@ export class UserService {
   }
 
   /**
-   * For lack of better word, this name will suffice :0
-   * @param user
+   * Method sets the current logged user, sets the token in local storage and navigates the user to home page.
+   * @param user - Specifies the current logged user
    */
   public signIn(user: User): void {
     this.user.next(user);
@@ -65,12 +81,18 @@ export class UserService {
     this.router.navigate(['/home']).then(() => {});
   }
 
+  /**
+   * Method unsets the current logged user, unsets the token in local storage and navigates the user to login page.
+   */
   public signOut(): void {
     this.user.next(null);
     localStorage.removeItem('token');
     this.router.navigate(['/login']).then(() => {});
   }
 
+  /**
+   * Method checks whether the reload event occurred and the logged user needs to be reset
+   */
   public checkLoggedUser(): void {
     if (!this.loggedUser){
       this.reload().subscribe(value => this.user.next(value));

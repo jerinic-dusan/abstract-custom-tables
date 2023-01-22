@@ -11,6 +11,10 @@ import {DetailResponse} from "../models/responses/detail-response.interface";
 import {PagedItemsResponse} from "../models/responses/paged-items-response.interface";
 import {PagedItems, PagedItemsMapper} from "../models/paged-items.model";
 
+/**
+ * Shopping service encapsulates all item and detail related http requests to the back-end.
+ * It also holds the information for current selected items and whether the cart should be reloaded
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -37,6 +41,10 @@ export class ShoppingService {
     this.selectedItem.next(item);
   }
 
+  /**
+   * Method creates a http get request for all items and returns a mapped observable array.
+   * If error is omitted, it's handled and an empty array is returned in an observable.
+   */
   public fetchAllItems(): Observable<Item[]> {
     return this.http.get<ApiResponse<ItemResponse[]>>(this.url.concat('items'), {
       headers: this.utilsService.initHeaders()
@@ -47,6 +55,15 @@ export class ShoppingService {
     );
   }
 
+  /**
+   * Method creates a http get request for all paged items and returns a mapped observable array.
+   * If error is omitted, it's handled and an empty array and 0 count is returned in an observable.
+   * @param filter - Specifies filter value
+   * @param sortColumn - Specifies column for sorting
+   * @param sortDirection - Specifies sort direction
+   * @param pageIndex - Specifies next or previous page index
+   * @param pageSize - Specifies page size
+   */
   public fetchAllItemsPaged(filter? : string,
                             sortColumn?: string,
                             sortDirection?: number,
@@ -68,6 +85,10 @@ export class ShoppingService {
     );
   }
 
+  /**
+   * Method creates a http post request to add a new item and returns a mapped observable item.
+   * If error is omitted, it's handled and a null value is returned in an observable.
+   */
   public addItem(name: string, type: string, price: string): Observable<Item | null> {
     return this.http.post<ApiResponse<ItemResponse>>(this.url.concat('add-item'), {
       name: name,
@@ -81,6 +102,10 @@ export class ShoppingService {
     );
   }
 
+  /**
+   * Method creates a http put request to edit an existing item and returns a mapped observable item.
+   * If error is omitted, it's handled and a null value is returned in an observable.
+   */
   public editItem(item: Item): Observable<Item | null> {
     return this.http.put<ApiResponse<ItemResponse>>(this.url.concat('edit-item'), {
       id: item.id,
@@ -95,6 +120,10 @@ export class ShoppingService {
     );
   }
 
+  /**
+   * Method creates a http delete request to delete an existing item and returns an observable boolean value if deletion was successful.
+   * If error is omitted, it's handled and a false boolean value is returned in an observable.
+   */
   public deleteItem(id: string): Observable<boolean> {
     return this.http.delete<ApiResponse<any>>(this.url.concat('delete-item'), {
       params: {
@@ -107,6 +136,10 @@ export class ShoppingService {
     );
   }
 
+  /**
+   * Method creates a http get request to fetch all item details and returns a mapped observable array.
+   * If error is omitted, it's handled and an empty array is returned in an observable.
+   */
   public fetchItemDetails(id: string): Observable<Detail[]> {
     return this.http.get<ApiResponse<DetailResponse[]>>(this.url.concat('item-details'), {
       params: {
@@ -120,6 +153,10 @@ export class ShoppingService {
     );
   }
 
+  /**
+   * Method creates a http post request to add a new item detail and returns a mapped observable detail array.
+   * If error is omitted, it's handled and an empty array is returned in an observable.
+   */
   public addItemDetail(id: string, name: string, value: string): Observable<Detail[]> {
     return this.http.post<ApiResponse<DetailResponse[]>>(this.url.concat('add-item-detail'), {
       id: id,
@@ -133,6 +170,10 @@ export class ShoppingService {
     );
   }
 
+  /**
+   * Method creates a http put request to edit an existing item detail and returns a mapped observable detail array.
+   * If error is omitted, it's handled and an empty array is returned in an observable.
+   */
   public editItemDetail(itemId: string, detailId: string, name: string, value: string): Observable<Detail[]> {
     return this.http.put<ApiResponse<DetailResponse[]>>(this.url.concat('edit-item-detail'), {
       itemId: itemId,
@@ -147,6 +188,10 @@ export class ShoppingService {
     );
   }
 
+  /**
+   * Method creates a http delete request to delete an existing item detail and returns a boolean observable.
+   * If error is omitted, it's handled and a false boolean value is returned in an observable.
+   */
   public deleteItemDetail(itemId: string, detailId: string): Observable<boolean> {
     return this.http.delete<ApiResponse<any>>(this.url.concat('delete-item-detail'), {
       params: {
@@ -160,6 +205,10 @@ export class ShoppingService {
     );
   }
 
+  /**
+   * Method creates a http get request for all cart items and returns a mapped observable array.
+   * If error is omitted, it's handled and an empty array is returned in an observable.
+   */
   public fetchCartItems(): Observable<Item[]> {
     return this.http.get<ApiResponse<ItemResponse[]>>(this.url.concat('cart-items'), {
       headers: this.utilsService.initHeaders()
@@ -170,6 +219,10 @@ export class ShoppingService {
     );
   }
 
+  /**
+   * Method creates a http post request to add an item to the cart and returns a mapped observable array.
+   * If error is omitted, it's handled and an empty array is returned in an observable.
+   */
   public addItemToCart(itemId: string): Observable<Item[]> {
     return this.http.post<ApiResponse<ItemResponse[]>>(this.url.concat('add-to-cart'), {
       itemId: itemId
@@ -181,6 +234,10 @@ export class ShoppingService {
     );
   }
 
+  /**
+   * Method creates a http delete request to remove an item from the cart and returns a mapped observable array.
+   * If error is omitted, it's handled and an empty array is returned in an observable.
+   */
   public deleteItemFromCart(itemId: string): Observable<Item[]> {
     return this.http.delete<ApiResponse<ItemResponse[]>>(this.url.concat('remove-from-cart'), {
       params: {
@@ -193,6 +250,10 @@ export class ShoppingService {
     );
   }
 
+  /**
+   * Method creates a http get request for all cart item details and returns a mapped observable array.
+   * If error is omitted, it's handled and an empty array is returned in an observable.
+   */
   public fetchCartItemDetails(itemId: string): Observable<Detail[]> {
     return this.http.get<ApiResponse<DetailResponse[]>>(this.url.concat('cart-item-details'), {
       params: {

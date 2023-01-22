@@ -1,3 +1,6 @@
+// Interface
+export * from './lib/models/abstract-custom-table.interface';
+
 // Module & component
 export * from './lib/components/custom-table/custom-table.module';
 export * from './lib/components/custom-table/custom-table.component';

@@ -31,3 +31,14 @@
   margin: 0;
   text-align: center;
 }
+
+.link-div {
+  display: flex;
+  justify-content: end;
+  margin-top: 5px;
+}
+
+.link {
+  font-size: 12px;
+  font-weight: lighter;
+}

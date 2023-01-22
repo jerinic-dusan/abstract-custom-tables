@@ -3,6 +3,9 @@ import {UserService} from "../../../services/user.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {User} from "../../../models/user.model";
 
+/**
+ * Login page handles all login logic and redirects the user to home page in case of the successful login attempt
+ */
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

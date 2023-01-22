@@ -1,11 +1,13 @@
 import {Detail} from "./detail.model";
-import {ColumnData, TableData} from "ngx-abstract-table";
-import {DataType} from "../../../../ngx-abstract-table/src/lib/models/enums/data-type.enum";
-import {DataAlignment} from "../../../../ngx-abstract-table/src/lib/models/enums/data-alignment.enum";
+import {ColumnData, TableData, DataType, DataAlignment} from "ngx-abstract-table";
 import {Injectable} from "@angular/core";
 import {Mapper} from "./mapper.interface";
 import {ItemResponse} from "./responses/item-response.interface";
 
+/**
+ * Item class which represents main data for the table.
+ * In order to be displayed as a table it needs to implement TableData interface and specify column meta-data
+ */
 export class Item implements TableData{
 
   id: string;
@@ -61,14 +63,6 @@ export class Item implements TableData{
     this._price = value;
   }
 
-  public get createdAt(): Date {
-    return this._createdAt;
-  }
-
-  public set createdAt(value: Date) {
-    this._createdAt = value;
-  }
-
   public get details(): Detail[] {
     return this._details;
   }
@@ -79,6 +73,9 @@ export class Item implements TableData{
 
 }
 
+/**
+ * Injectable item mapper which converts an item response to a mapped item
+ */
 @Injectable({providedIn: "root"})
 export class ItemMapper implements Mapper<Item> {
   public map(item: ItemResponse): Item {

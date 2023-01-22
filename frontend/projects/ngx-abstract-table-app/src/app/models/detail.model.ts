@@ -1,10 +1,12 @@
-import {ColumnData, TableData} from "ngx-abstract-table";
-import {DataType} from "../../../../ngx-abstract-table/src/lib/models/enums/data-type.enum";
-import {DataAlignment} from "../../../../ngx-abstract-table/src/lib/models/enums/data-alignment.enum";
+import {ColumnData, TableData, DataType, DataAlignment} from "ngx-abstract-table";
 import {Injectable} from "@angular/core";
 import {Mapper} from "./mapper.interface";
 import {DetailResponse} from "./responses/detail-response.interface";
 
+/**
+ * Detail class which represents child data for each item.
+ * In order to be displayed as a table it needs to implement TableData interface and specify column meta-data
+ */
 export class Detail implements TableData{
 
   id: string;
@@ -41,6 +43,9 @@ export class Detail implements TableData{
   }
 }
 
+/**
+ * Injectable detail mapper which converts a detail response to a mapped detail
+ */
 @Injectable({providedIn: "root"})
 export class DetailMapper implements Mapper<Detail> {
   public map(item: DetailResponse): Detail {

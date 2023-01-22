@@ -5,6 +5,9 @@ import {TableData} from "../table-data.interface";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 
+/**
+ * Server side data source implementation for interacting with data with a help of a external server for filter, pagination and sorting events.
+ */
 export class ServerSideDataSource implements AbstractDataSource{
 
   loading: Observable<boolean>;

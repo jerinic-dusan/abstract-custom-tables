@@ -4,10 +4,13 @@ import {Mapper} from "./mapper.interface";
 import {LoginResponse} from "./responses/login-response.interface";
 import {RegisterResponse} from "./responses/register-response.interface";
 
+/**
+ * User class encapsulates user information and user cart items
+ */
 export class User {
   private _username: string;
   private _email: string;
-  private _token: string;
+  private readonly _token: string;
   private _cartItems: Item[];
 
   constructor(username: string, email: string, token: string, cartItems: Item[] = []) {
@@ -37,19 +40,11 @@ export class User {
     return this._token;
   }
 
-  public set token(value: string) {
-    this._token = value;
-  }
-
-  public get cartItems(): Item[] {
-    return this._cartItems;
-  }
-
-  public set cartItems(value: Item[]) {
-    this._cartItems = value;
-  }
 }
 
+/**
+ * Injectable user mapper which converts a login/register response object to a mapped user class
+ */
 @Injectable({providedIn: "root"})
 export class UserMapper implements Mapper<User> {
   public map(item: LoginResponse | RegisterResponse): User {
