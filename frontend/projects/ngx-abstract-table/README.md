@@ -102,7 +102,7 @@ Custom child component specifies the child component to be displayed for each ro
 ```
 
 ## End result
-![Homepage-Image](https://github.com/jerinic-dusan/abstract-custom-tables/blob/master/homepage.png)
+![Homepage-Image](https://raw.githubusercontent.com/jerinic-dusan/abstract-custom-tables/main/homepage.png)
 
 ## Updates
 Library will get new updates depending on if there is any need for them. For now,  I hope anyone that uses it gets a good use out of it.
