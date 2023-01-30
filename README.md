@@ -1,6 +1,8 @@
 # Abstract-custom-tables
 Abstract-custom-tables is a personal project built to display current MEAN stack standards for data transportation and manipulation from the database to the front-end, as well as demonstrate abstract-custom-tables library for customizing angular material tables with passable configuration. It applies abstraction and generics to achieve scalability and flexibility, while keeping the code clean and easily understandable. The angular library is [publshed on npm](https://www.npmjs.com/package/ngx-abstract-table) and its documentation can be found there.
 
+![Homepage-Image](https://raw.githubusercontent.com/jerinic-dusan/abstract-custom-tables/main/homepage.png)
+
 ## Back-end
 NodeJS back-end logic is separated into database, controller and router layers.
 Example for fetching all item details
